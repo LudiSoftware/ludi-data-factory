@@ -1,24 +1,23 @@
-from Models.User import User
 
+UNASSIGNED = "unassigned"
+class Parent:
 
-class Parent(User):
-    ORDER_BY_ORGANIZATION = "organizationId"
-
-    def __init__(self, _id=None):
-        super().__init__(_id=_id)
-        self.name = ""
-        self.imgUrl = ""
-        self.organizationIds = []
-        self.sport = "unassigned"
-        self.type = "unassigned"
-        self.subType = "unassigned"
-        self.details = ""
-        self.email = ""
-        self.phone = ""
+    def __init__(self, _id=None, firebase_user=None):
+        if firebase_user and type(firebase_user) not in [dict]:
+            firebase_user = firebase_user.__dict__
+        self.ownerId = firebase_user.get('id') if firebase_user else UNASSIGNED
+        self.ownerName = firebase_user.get('name') if firebase_user else UNASSIGNED
+        self.imgUrl = UNASSIGNED
+        self.details = UNASSIGNED
         self.isFree = False
         self.hasReview = False
         self.reviews = []
-        self.ratingScore = ""
-        self.ratingCount = ""
-        self.reviewAnswerCount = ""
-        self.reviewDetails = ""
+        self.ratingScore = UNASSIGNED
+        self.ratingCount = UNASSIGNED
+        self.reviewAnswerCount = UNASSIGNED
+        self.reviewDetails = UNASSIGNED
+        self.player = False
+        self.playerIds = []
+        self.team = False
+        self.teamIds = []
+        self.organizationIds = []

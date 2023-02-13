@@ -1,25 +1,25 @@
-from Models.User import User
 
+UNASSIGNED = "unassigned"
+class Player:
 
-class Player(User):
-    ORDER_BY_ORGANIZATION = "organizationId"
-
-    def __init__(self, _id=None):
-        super().__init__(_id=_id)
-        self.ownerId = self.id
-        self.ownerName = self.name
-        self.position = self.UNASSIGNED
-        self.teamId = self.UNASSIGNED
-        self.teamName = self.UNASSIGNED
+    def __init__(self, _id=None, firebase_user=None):
+        if firebase_user and type(firebase_user) not in [dict]:
+            firebase_user = firebase_user.__dict__
+        self.ownerId = firebase_user.get('id') if firebase_user else UNASSIGNED
+        self.ownerName = firebase_user.get('name') if firebase_user else UNASSIGNED
+        self.tryoutNumber = UNASSIGNED
+        self.position = UNASSIGNED
+        self.teamId = UNASSIGNED
+        self.teamName = UNASSIGNED
         self.teamIds = []
-        self.organizationId = self.UNASSIGNED
-        self.organizationName = self.UNASSIGNED
+        self.organizationId = UNASSIGNED
+        self.organizationName = UNASSIGNED
         self.organizationIds = []
         self.sport = "soccer"
         self.isFree = False
         self.hasReview = False
         self.reviewIds = []
-        self.ratingScore = self.UNASSIGNED
-        self.ratingCount = self.UNASSIGNED
-        self.reviewAnswerCount = self.UNASSIGNED
-        self.reviewDetails = self.UNASSIGNED
+        self.ratingScore = UNASSIGNED
+        self.ratingCount = UNASSIGNED
+        self.reviewAnswerCount = UNASSIGNED
+        self.reviewDetails = UNASSIGNED
