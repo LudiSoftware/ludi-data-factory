@@ -53,14 +53,14 @@ def savePromotedUserToFirebase(userId:str, userObj:{}, saveTo:str):
 def updateBaseUserToFirebase(userId:str, userObj:{}):
     return db.update_object(userId, userObj.__dict__, collection="users")
 
-def promote_user(userId:str, promoteTo:str, save=True):
+def promote_user(userId:str, promoteTo:str, saveToFirebase=True):
     """ Main Promote User Function """
     user = get_user_by_id(userId, toUser=True)
-    return parseUserTo(user, parseTo=promoteTo, save=save)
+    return parseUserTo(user, parseTo=promoteTo, save=saveToFirebase)
 
 if __name__ == '__main__':
     promotion = "coach"
     userID = "tnmjTR7r1HPwIaBb2oXrDrwXT842"
-    promote_user(userID, promotion, save=True)
+    promote_user(userID, promotion, saveToFirebase=True)
 
 
