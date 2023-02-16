@@ -7,13 +7,13 @@ def get_user_by_id(user_id, toUser=False):
     json_user = db.get_object(user_id, collection="users")[0][user_id]
     if not toUser:
         return json_user
-    from Models.User import User
+    from Models.Users.User import User
     newUser = User(firebase_user=json_user)
     return newUser
 
 def parseUserTo(userObj:{}, parseTo:str, save=False):
     if parseTo == "coach":
-        from Models.Coach import Coach
+        from Models.Users.Coach import Coach
         newCoach = Coach(firebase_user=userObj)
         if save:
             id = newCoach.ownerId
@@ -22,7 +22,7 @@ def parseUserTo(userObj:{}, parseTo:str, save=False):
             savePromotedUserToFirebase(id, newCoach, parseTo)
         return newCoach
     elif parseTo == "parent":
-        from Models.Parent import Parent
+        from Models.Users.Parent import Parent
         newParent = Parent(firebase_user=userObj)
         if save:
             id = newParent.ownerId
@@ -31,7 +31,7 @@ def parseUserTo(userObj:{}, parseTo:str, save=False):
             savePromotedUserToFirebase(id, newParent, parseTo)
         return newParent
     elif parseTo == "player":
-        from Models.Player import Player
+        from Models.Users.Player import Player
         newPlayer = Player(firebase_user=userObj)
         if save:
             id = newPlayer.ownerId

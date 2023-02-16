@@ -1,6 +1,28 @@
 import time
 
+
 UNASSIGNED = "unassigned"
+
+
+
+
+class CoachNote:
+    def __init__(self, obj):
+        self.id = obj.get("id", None)
+        self.dateCreated = obj.get("dateCreated", None)
+        self.dateUpdated = obj.get("dateUpdated", None)
+        self.coachId = obj.get("coachId", None)
+        self.aboutTeamId = obj.get("aboutTeamId", None)
+        self.aboutPlayerId = obj.get("aboutPlayerId", None)
+        self.message = obj.get("message", None)
+
+
+class CoachRef:
+    def __init__(self, coach: dict = {}):
+        self.coachId = coach.get('coachId', None)
+        self.name = coach.get('name', None)
+        self.title = coach.get('title', None)
+
 class Coach:
 
     def __init__(self, _id=None, firebase_user=None):
@@ -8,9 +30,15 @@ class Coach:
             firebase_user = firebase_user.__dict__
         self.dateCreated = firebase_user.get('dateCreated', str(time.time()))
         self.dateUpdated = firebase_user.get('dateUpdated', str(time.time()))
-        self.ownerId = firebase_user.get('id') if firebase_user else UNASSIGNED
-        self.ownerName = firebase_user.get('name') if firebase_user else UNASSIGNED
+        self.id = firebase_user.get('id') if firebase_user else UNASSIGNED
+        self.name = firebase_user.get('name') if firebase_user else UNASSIGNED
         self.imgUrl = UNASSIGNED
+
+        self.organizationRefs: [] = []
+        self.teamRefs: [] = []
+        self.hasReview = False
+        self.reviewBundle = None
+
         self.organizationId = UNASSIGNED
         self.organizationName = UNASSIGNED
         self.organizationIds = []

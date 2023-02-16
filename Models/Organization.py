@@ -1,45 +1,56 @@
 import uuid
 import time
 from Firebase.FirebaseAdmin import FireDB
+from Models.Address import Address
+from Models.Users.Coach import CoachRef
 
+ORDER_BY_SPORTS = "sport"
+UNASSIGNED = "unassigned"
 
+class OrganizationRef:
+    id: str = None
+    name: str = None
+    
 class Organization:
 
-    ORDER_BY_SPORTS = "sport"
-    UNASSIGNED = "unassigned"
-
-    def __init__(self, place_dict=None):
-        self.id = str(uuid.uuid1())
-        self.dateCreated = str(time.time())
-        self.name = self.UNASSIGNED
-        self.addressOne = self.UNASSIGNED
-        self.addressTwo = self.UNASSIGNED
-        self.city = self.UNASSIGNED
-        self.state = self.UNASSIGNED
-        self.zip = self.UNASSIGNED
-        self.latitude = self.UNASSIGNED
-        self.longitude = self.UNASSIGNED
-        self.sport = "soccer"
-        self.type = self.UNASSIGNED
-        self.subType = self.UNASSIGNED
-        self.ratingScore = "0.0"
-        self.ratingCount = "0"
-        self.details = self.UNASSIGNED
-        self.officeHours = self.UNASSIGNED
-        self.websiteUrl = self.UNASSIGNED
-        self.imgOrgIconUri = self.UNASSIGNED
-        self.managerId = self.UNASSIGNED
-        self.managerName = self.UNASSIGNED
-        self.estMemberCount = self.UNASSIGNED
-        self.estStaffCount = self.UNASSIGNED
-        self.business_status = "UNKNOWN"
-        self.fromGoogle = False
-        self.staffIds = []
-        self.reviewIds = []
-        self.leagueIds = []
-        self.regionIds = []
-        self.locationIds = []
-        self.imgUris = []
+    def __init__(self, obj=None, place_dict=None):
+        self.id = obj.get('id', uuid.uuid4())
+        self.ratingScore = obj.get('ratingScore', None)
+        self.ratingCount = obj.get('ratingCount', None)
+        self.officeHours = obj.get('officeHours', None)
+        self.websiteUrl = obj.get('websiteUrl', None)
+        self.imgOrgIconUri = obj.get('imgOrgIconUri', None)
+        self.managerId = obj.get('managerId', None)
+        self.managerName = obj.get('managerName', None)
+        self.estMemberCount = obj.get('estMemberCount', None)
+        self.estStaffCount = obj.get('estStaffCount', None)
+        self.staffRefs = obj.get('staffRefs', [CoachRef])
+        self.reviewIds = obj.get('reviewIds', [str])
+        self.leagueRefs = obj.get('leagueRefs', [])
+        self.regionRefs = obj.get('regionRefs', [str])
+        self.locationRefs = obj.get('locationRefs', [])
+        self.imgUris = obj.get('imgUris', [str])
+        self.fromGoogle = obj.get('fromGoogle', False)
+        self.google_place_category = obj.get('google_place_category', None)
+        self.business_status = obj.get('business_status', None)
+        self.google_place_icon = obj.get('google_place_icon', None)
+        self.google_place_rating = obj.get('google_place_rating', None)
+        self.tags = obj.get('tags', None)
+        self.google_place_id = obj.get('google_place_id', None)
+        self.google_place_user_ratings_total = obj.get('google_place_user_ratings_total', None)
+        self.dateCreated = time.time()
+        self.dateUpdated = time.time()
+        self.name = obj.get('name', None)
+        self.firstName = obj.get('firstName', None)
+        self.lastName = obj.get('lastName', None)
+        self.type = obj.get('type', None)
+        self.subType = obj.get('subType', None)
+        self.details = obj.get('details', None)
+        self.isFree = obj.get('isFree', False)
+        self.status = obj.get('status', None)
+        self.mode = obj.get('mode', None)
+        self.imgUrl = obj.get('imgUrl', None)
+        self.sport = obj.get('sport', None)
         if place_dict:
             self.business_status = place_dict.get('business_status')
             self.google_place_icon = place_dict.get('icon')
@@ -59,6 +70,7 @@ class Organization:
             temp = place_dict.get('geometry')["location"]
             self.latitude = str(temp["lat"])
             self.longitude = str(temp["lng"])
+            self.address = Address().from_places(place_dict)
             self.google_place_category = place_dict.get('category')
             self.sport = self.google_place_category
             self.fromGoogle = True

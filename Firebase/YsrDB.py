@@ -1,7 +1,7 @@
-from Models.Coach import Coach
-from Models.Parent import Parent
-from Models.Player import Player
-from Models.User import User
+from Models.Users.Coach import Coach
+from Models.Users.Parent import Parent
+from Models.Users.Player import Player
+from Models.Users.User import User
 from Firebase.FirebaseAdmin import FireDB
 
 class UserManager:

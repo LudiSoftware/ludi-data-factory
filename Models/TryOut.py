@@ -1,0 +1,32 @@
+
+import time
+
+class Team:
+    def __init__(self, team_obj=None):
+        self.teamId = team_obj.get('teamId', None)
+        self.teamName = team_obj.get('teamName', None)
+        self.headCoachId = team_obj.get('headCoachId', None)
+        self.headCoachName = team_obj.get('headCoachName', None)
+        self.coachRefs = team_obj.get('coachRefs', None)
+        self.managerRefs = team_obj.get('managerRefs', None)
+        self.organizationRefs = team_obj.get('organizationRefs', None)
+        self.roster = team_obj.get('roster', None)
+        self.year = team_obj.get('year', None)
+        self.ageGroup = team_obj.get('ageGroup', None)
+        self.isActive = team_obj.get('isActive', False)
+        self.gender = team_obj.get('gender', None)
+        self.hasReview = team_obj.get('hasReview', False)
+        self.reviews = team_obj.get('reviews', None)
+        self.dateCreated = team_obj.get('dateCreated', time.time())
+        self.dateUpdated = team_obj.get('dateUpdated', time.time())
+        self.name = team_obj.get('name', None)
+        self.firstName = team_obj.get('firstName', None)
+        self.lastName = team_obj.get('lastName', None)
+        self.type = team_obj.get('type', None)
+        self.subType = team_obj.get('subType', None)
+        self.details = team_obj.get('details', None)
+        self.isFree = team_obj.get('isFree', False)
+        self.status = team_obj.get('status', None)
+        self.mode = team_obj.get('mode', None)
+        self.imgUrl = team_obj.get('imgUrl', None)
+        self.sport = team_obj.get('sport', None)
