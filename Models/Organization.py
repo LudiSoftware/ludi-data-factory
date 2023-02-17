@@ -51,6 +51,7 @@ class Organization:
         self.mode = obj.get('mode', None)
         self.imgUrl = obj.get('imgUrl', None)
         self.sport = obj.get('sport', None)
+        self.chatEnabled = obj.get('chatEnabled', False)
         if place_dict:
             self.business_status = place_dict.get('business_status')
             self.google_place_icon = place_dict.get('icon')

@@ -11,9 +11,7 @@ class PlayerRef:
         self.rank = json_obj.get('rank', None)
         self.tryoutTag = json_obj.get('tryoutTag', str(uuid.uuid1()))
         self.imgUrl = json_obj.get('imgUrl', "None")
-
-
-
+        self.evaluationRefs = json_obj.get('evaluationRefs', None)
 class Player:
     def __init__(self, json_data):
         self.id = json_data.get("id", "")
@@ -22,10 +20,10 @@ class Player:
         self.number = json_data.get("number", 0)
         self.tryoutTag = json_data.get("tryoutTag", None)
         self.coachNotes: [] = json_data.get("coachNotes", [])
+        self.evaluationRefs = json_data.get('evaluationRefs', None)
         self.age = json_data.get("age", 0)
         self.dob = json_data.get("dob", None)
         self.position = json_data.get("position", None)
-        self.playerName = json_data.get("playerName", None)
         self.teamName = json_data.get("teamName", None)
         self.organizationRefs: [] = json_data.get("organizationRefs", [])
         self.teamIds = json_data.get("teamIds", [])
