@@ -20,6 +20,9 @@ class FireDB:
     def add_object(self, obj_id:str, obj:{}, collection=None):
         return self.REF.child(self.collection if not collection else collection).child(obj_id).set(obj)
 
+    def add_object_by_user_id(self, user_id:str, obj_id:str, obj:{}, collection=None):
+        return self.REF.child(self.collection if not collection else collection).child(user_id).child(obj_id).set(obj)
+
     # Update an object in the database
     def update_object(self, obj_id, obj, collection=None):
         return self.REF.child(self.collection if not collection else collection).child(obj_id).update(obj)

@@ -35,7 +35,7 @@ def parseUserTo(userObj:{}, parseTo:str, save=False):
         newPlayer = Player(firebase_user=userObj)
         if save:
             id = newPlayer.ownerId
-            userObj.player = True
+            userObj.hasPlayer = True
             updateBaseUserToFirebase(id, userObj)
             savePromotedUserToFirebase(id, newPlayer, parseTo)
         return newPlayer

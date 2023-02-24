@@ -1,37 +1,39 @@
 import uuid
 import time
-
+from Models.TestDataCreator.TestData import DataGeneration as dg
+dg = dg()
 class TryOut:
-    def __init__(self, tryout_obj=None):
-        self.id = str(uuid.uuid4())
-        self.teamId = tryout_obj.get('teamId', None)
-        self.notes = tryout_obj.get('notes', None)
-        self.playersRegisteredRefs = tryout_obj.get('playersRegisteredRefs', None)
-        self.playersRankedRefs = tryout_obj.get('playersRankedRefs', None)
-        self.headCoachId = tryout_obj.get('headCoachId', None)
-        self.headCoachName = tryout_obj.get('headCoachName', None)
-        self.coachRefs = tryout_obj.get('coachRefs', None)
-        self.managerRefs = tryout_obj.get('managerRefs', None)
-        self.organizationRefs = tryout_obj.get('organizationRefs', None)
-        self.schedule = tryout_obj.get('schedule', None)
-        self.year = tryout_obj.get('year', None)
-        self.ageGroup = tryout_obj.get('ageGroup', None)
-        self.isActive = tryout_obj.get('isActive', None)
-        self.gender = tryout_obj.get('gender', None)
-        self.dateCreated = tryout_obj.get('dateCreated', time.time())
-        self.dateUpdated = tryout_obj.get('dateUpdated', time.time())
-        self.name = tryout_obj.get('name', None)
-        self.firstName = tryout_obj.get('firstName', None)
-        self.lastName = tryout_obj.get('lastName', None)
-        self.type = tryout_obj.get('type', None)
-        self.subType = tryout_obj.get('subType', None)
-        self.details = tryout_obj.get('details', None)
+    def __init__(self, tryout_obj=None, headCoachId=None):
+        self.id = tryout_obj.get('id', str(uuid.uuid4()))
+        # From Team
+        self.teamId = tryout_obj.get('teamId', tryout_obj.get('id', str(uuid.uuid4())))
+        self.headCoachId = tryout_obj.get('headCoachId', headCoachId)
+        self.headCoachName = tryout_obj.get('headCoachName', dg.generate_full_name())
+        self.coaches = tryout_obj.get('coaches', [dg.generate_coachRef(userId=headCoachId)])
+        self.managers = tryout_obj.get('managers', [])
+        self.organizations = tryout_obj.get('organizations', [])
+        self.year = tryout_obj.get('year', dg.generate_team_year())
+        # New
+        self.notes = tryout_obj.get('notes', [])
+        self.tryoutRoster = tryout_obj.get('tryoutRoster', dg.generate_roster(20))
+        self.coachRosters = tryout_obj.get('coachRosters', [])
+        self.schedule = tryout_obj.get('schedule', dg.generate_tryout_schedule())
+        self.ageGroup = tryout_obj.get('ageGroup', dg.generate_age_group())
+        self.isActive = tryout_obj.get('isActive', True)
+        self.gender = tryout_obj.get('gender', "female")
+        #base
+        self.dateCreated = tryout_obj.get('dateCreated', str(time.time()))
+        self.dateUpdated = tryout_obj.get('dateUpdated', str(time.time()))
+        self.name = tryout_obj.get('name', "Tryouts: Fall2023/Spring2024")
+        self.type = tryout_obj.get('type', "competitive")
+        self.subType = tryout_obj.get('subType', "youth")
+        self.details = tryout_obj.get('details', "This is a no joke tryout!")
         self.isFree = tryout_obj.get('isFree', False)
-        self.status = tryout_obj.get('status', None)
-        self.mode = tryout_obj.get('mode', None)
-        self.imgUrl = tryout_obj.get('imgUrl', None)
-        self.sport = tryout_obj.get('sport', None)
-        self.chatEnabled = tryout_obj.get('chatEnabled', False)
+        self.status = tryout_obj.get('status', "open")
+        self.mode = tryout_obj.get('mode', "edit")
+        self.imgUrl = tryout_obj.get('imgUrl', "")
+        self.sport = tryout_obj.get('sport', "soccer")
+        self.chatEnabled = tryout_obj.get('chatEnabled', True)
 
 # create a function that creates a new TryOut object and fills it with mock data
 def create_mock_tryout():
@@ -41,13 +43,13 @@ def create_mock_tryout():
     tryout.name = "Mock TryOut"
     tryout.teamId = "Mock Team Id"
     tryout.notes = "Mock Notes"
-    tryout.playersRegisteredRefs = "Mock Players Registered Refs"
-    tryout.playersRankedRefs = "Mock Players Ranked Refs"
+    tryout.tryoutRoster = "Mock Players Registered Refs"
+    tryout.coachRosters = "Mock Players Ranked Refs"
     tryout.headCoachId = "Mock Head Coach Id"
     tryout.headCoachName = "Mock Head Coach Name"
-    tryout.coachRefs = [CoachRef]
-    tryout.managerRefs = "Mock Manager Refs"
-    tryout.organizationRefs = "Mock Organization Refs"
+    tryout.coaches = []
+    tryout.managers = "Mock Manager Refs"
+    tryout.organizations = "Mock Organization Refs"
     tryout.schedule = "Mock Schedule"
     tryout.year = "Mock Year"
     tryout.ageGroup = "Mock Age Group"

@@ -19,16 +19,16 @@ class UserManager:
         if parse_to == "coach":
             new_user = Coach(firebase_user=user_obj)
         elif parse_to == "parent":
-            new_user = Parent(firebase_user=user_obj)
+            new_user = Parent(json_data=user_obj)
         elif parse_to == "player":
-            new_user = Player(firebase_user=user_obj)
+            new_user = Player(user_or_playerRef_json=user_obj)
         else:
             return None
 
         if save:
-            id = new_user.ownerId
+            id = new_user.id
             if parse_to == "coach":
-                user_obj["coach"] = True
+                user_obj.coach = True
                 save_to = "coaches"
             elif parse_to == "parent":
                 user_obj["parent"] = True
@@ -47,8 +47,17 @@ class UserManager:
         return self.db.add_object(user_id, user_obj, collection=save_to)
 
     def update_base_user_to_firebase(self, user_id, user_obj):
+        if type(user_obj) not in [dict]:
+            user_obj = user_obj.__dict__
         return self.db.update_object(user_id, user_obj, collection="users")
 
     def promote_user(self, user_id, promote_to, save_to_firebase=True):
         user = self.get_user_by_id(user_id, toUser=True)
         return self.parse_user_to(user, parse_to=promote_to, save=save_to_firebase)
+
+if __name__ == '__main__':
+    um = UserManager()
+    user = um.get_user_by_id("tnmjTR7r1HPwIaBb2oXrDrwXT842")
+    print(user)
+    user = um.promote_user("tnmjTR7r1HPwIaBb2oXrDrwXT842", "coach")
+    print(user)

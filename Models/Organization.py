@@ -9,6 +9,7 @@ UNASSIGNED = "unassigned"
 
 class OrganizationRef:
     id: str = None
+    organizationId: str = None
     name: str = None
     
 class Organization:
@@ -24,11 +25,11 @@ class Organization:
         self.managerName = obj.get('managerName', None)
         self.estMemberCount = obj.get('estMemberCount', None)
         self.estStaffCount = obj.get('estStaffCount', None)
-        self.staffRefs = obj.get('staffRefs', [CoachRef])
-        self.reviewIds = obj.get('reviewIds', [str])
-        self.leagueRefs = obj.get('leagueRefs', [])
-        self.regionRefs = obj.get('regionRefs', [str])
-        self.locationRefs = obj.get('locationRefs', [])
+        self.staff = obj.get('staff', [CoachRef])
+        self.reviews = obj.get('reviews', [str])
+        self.leagues = obj.get('leagues', [])
+        self.regions = obj.get('regions', [str])
+        self.locations = obj.get('locations', [])
         self.imgUris = obj.get('imgUris', [str])
         self.fromGoogle = obj.get('fromGoogle', False)
         self.google_place_category = obj.get('google_place_category', None)

@@ -1,6 +1,8 @@
 import uuid
 import time
 
+from Models.TestDataCreator.TestData import DataGeneration as dg
+dg = dg()
 UNASSIGNED = "unassigned"
 BASIC_USER = "basic"
 PARENT_USER = "parent"
@@ -8,49 +10,32 @@ PLAYER_USER = "player"
 COACH_USER = "coach"
 CLOSED = "closed"
 
-class User:
-    def __init__(self, _id=None, firebase_user=None):
-        self.id = str(uuid.uuid1()) if not _id else str(_id)
-        self.dateCreated = str(time.time())
-        self.dateUpdated = str(time.time())
-        self.username = UNASSIGNED
-        self.name = UNASSIGNED
-        self.firstName = UNASSIGNED
-        self.lastName = UNASSIGNED
-        self.auth = BASIC_USER
-        self.type = UNASSIGNED
-        self.subType = UNASSIGNED
-        self.details = UNASSIGNED
-        self.email = UNASSIGNED
-        self.phone = UNASSIGNED
-        self.age = UNASSIGNED
-        self.gender = UNASSIGNED
-        self.visibility = CLOSED
-        self.photoUrl = UNASSIGNED
-        self.emailVerified = False
-        self.parent = False
-        self.player = False
-        self.coach = False
-        self.valid = None
-        if firebase_user:
-            self.parse(firebase_user)
 
-    def parse(self, data:{}):
-        self.auth = data.get('auth')
-        self.dateCreated = data.get('dateCreated')
-        self.dateUpdated = data.get('dateUpdated')
-        self.email = data.get('email')
-        self.emailVerified = data.get('emailVerified', False)
-        self.id = data.get('id')
-        self.name = data.get('name')
-        self.age = data.get('age')
-        self.phone = data.get('phone')
-        self.photoUrl = data.get('photoUrl')
-        self.type = data.get('type')
-        self.subType = data.get('subType')
-        self.username = data.get('username')
-        self.valid = data.get('valid', False)
-        self.visibility = data.get('visibility', False)
-        self.coach = data.get('coach', False)
-        self.parent = data.get('parent', False)
-        self.player = data.get('player', False)
+
+class User:
+    def __init__(self, _id=None, firebase_user={}):
+        self.id = firebase_user.get("id", _id if _id else str(uuid.uuid4()))
+        self.dateCreated = firebase_user.get("dateCreated", str(time.time()))
+        self.dateUpdated = firebase_user.get("dateUpdated", str(time.time()))
+        self.username = firebase_user.get("username", dg.generate_username())
+        fakeName = dg.generate_full_name()
+        self.name = firebase_user.get("name", fakeName)
+        self.firstName = firebase_user.get("firstName", dg.get_first_name(fakeName))
+        self.lastName = firebase_user.get("lastName", dg.get_last_name(fakeName))
+        self.email = firebase_user.get("email", dg.generate_email())
+        self.phone = firebase_user.get("phone", dg.generate_phone_number())
+        fakeBirthday = dg.generate_birthday()
+        self.age = firebase_user.get("age", dg.get_age_for_birthday(fakeBirthday))
+        self.dob = firebase_user.get("dob", fakeBirthday)
+        self.gender = firebase_user.get("gender", "male")
+        self.auth = firebase_user.get("auth", "basic")
+        self.type = firebase_user.get("type", "basic")
+        self.subType = firebase_user.get("subType", "basic")
+        self.details = firebase_user.get("details", "no details")
+        self.visibility = firebase_user.get("visibility", "open")
+        self.photoUrl = firebase_user.get("photoUrl", "")
+        self.emailVerified = firebase_user.get("emailVerified", False)
+        self.parent = firebase_user.get("parent", False)
+        self.player = firebase_user.get("player", False)
+        self.coach = firebase_user.get("coach", False)
+        self.valid = firebase_user.get("valid", True)
