@@ -10,7 +10,7 @@ UNASSIGNED = "unassigned"
 class PlayerRef:
     def __init__(self, user_or_player_json={}):
         self.id = user_or_player_json.get('id', str(uuid.uuid1()))
-        self.playerId = user_or_player_json.get('playerId', str(uuid.uuid1()))
+        self.playerId = user_or_player_json.get('playerId', self.id)
         self.name = user_or_player_json.get('name', dg.generate_full_name())
         self.rank = user_or_player_json.get('rank', dg.generate_player_rank())
         self.number = user_or_player_json.get('number', dg.generate_number())
@@ -25,7 +25,7 @@ class PlayerRef:
 
 class Player:
     def __init__(self, user_or_playerRef_json=None):
-        self.id = user_or_playerRef_json.get("id", uuid.uuid4())
+        self.id = user_or_playerRef_json.get("id", str(uuid.uuid4()))
         self.team = user_or_playerRef_json.get("team", None)
         self.rank = user_or_playerRef_json.get("rank", 0)
         self.number = user_or_playerRef_json.get("number", 0)

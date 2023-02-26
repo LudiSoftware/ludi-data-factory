@@ -1,6 +1,7 @@
-
+import uuid
 class Event:
     def __init__(self, schedule_obj={}):
+        self.id = schedule_obj.get('id', str(uuid.uuid4()))
         self.eventName = schedule_obj.get('eventName', "Practice")
         self.startDate = schedule_obj.get('startDate', "02/01/2023")
         self.startTime = schedule_obj.get('startTime', "5:15pm")
@@ -13,6 +14,7 @@ class Event:
 
 class Schedule:
     def __init__(self, schedule_obj={}):
+        self.id = schedule_obj.get('id', str(uuid.uuid4()))
         self.name = schedule_obj.get('name', "Spring Practice")
         self.startDate = schedule_obj.get('startDate', "02/01/2023")
         self.endDate = schedule_obj.get('endDate', "05/12/2023")

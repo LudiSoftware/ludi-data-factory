@@ -168,12 +168,25 @@ class DataGeneration:
             return player.__dict__
         return player
     @staticmethod
-    def generate_roster(num_players:int=20) -> [dict]:
+    def generate_roster(num_players:int=20) -> dict:
+        from Models.Roster import Roster
+        roster = Roster()
+        roster.season = DataGeneration.generate_team_year()
         player_refs = []
         for i in range(num_players):
             newPlayerRef = DataGeneration.generate_playerRef()
             player_refs.append(newPlayerRef)
-        return player_refs
+        roster.players = player_refs
+        return roster.__dict__
+
+    @staticmethod
+    def generate_coach_roster(coachId, roster):
+        from Models.Roster import CoachRosters
+        item = {"coachId": coachId, "rosters": [roster]}
+        coachRoster = CoachRosters(item)
+        return coachRoster.__dict__
+
+
     @staticmethod
     def generate_coaches(num_players: int = 1) -> [dict]:
         coach_refs = []

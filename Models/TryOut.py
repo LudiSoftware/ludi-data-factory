@@ -1,33 +1,41 @@
 import uuid
 import time
+from Firebase.FirebaseAdmin import FireDB
 from Models.TestDataCreator.TestData import DataGeneration as dg
 dg = dg()
+db = FireDB()
 class TryOut:
-    def __init__(self, tryout_obj=None, headCoachId=None):
+    def __init__(self, tryout_obj={}, headCoachId="tnmjTR7r1HPwIaBb2oXrDrwXT842"):
         self.id = tryout_obj.get('id', str(uuid.uuid4()))
-        # From Team
-        self.teamId = tryout_obj.get('teamId', tryout_obj.get('id', str(uuid.uuid4())))
+        # From Team (5)
+        self.isActive = tryout_obj.get('isActive', True)
+        self.isFinalized = tryout_obj.get('isFinalized', False)
+        self.teamId = tryout_obj.get('teamId', "9374e9f6-53ce-4ca5-90c6-cd613ad52c6a")
         self.headCoachId = tryout_obj.get('headCoachId', headCoachId)
-        self.headCoachName = tryout_obj.get('headCoachName', dg.generate_full_name())
+        self.headCoachName = tryout_obj.get('headCoachName', "Chazz Romeo")
+        # References (3)
         self.coaches = tryout_obj.get('coaches', [dg.generate_coachRef(userId=headCoachId)])
         self.managers = tryout_obj.get('managers', [])
         self.organizations = tryout_obj.get('organizations', [])
-        self.year = tryout_obj.get('year', dg.generate_team_year())
-        # New
+        # Notes (1)
         self.notes = tryout_obj.get('notes', [])
-        self.tryoutRoster = tryout_obj.get('tryoutRoster', dg.generate_roster(20))
-        self.coachRosters = tryout_obj.get('coachRosters', [])
-        self.schedule = tryout_obj.get('schedule', dg.generate_tryout_schedule())
+        # Rosters (2)
+        roster = dg.generate_roster(20)
+        self.tryoutRoster = tryout_obj.get('tryoutRoster', roster)
+        self.coachRosters = tryout_obj.get('coachRosters', [dg.generate_coach_roster(coachId=headCoachId, roster=roster)])
+        # Schedule (1)
+        # self.schedule = tryout_obj.get('schedule', dg.generate_tryout_schedule())
+        # Team Attributes (3)
+        self.year = tryout_obj.get('year', dg.generate_team_year())
         self.ageGroup = tryout_obj.get('ageGroup', dg.generate_age_group())
-        self.isActive = tryout_obj.get('isActive', True)
         self.gender = tryout_obj.get('gender', "female")
-        #base
+        #base (12)
         self.dateCreated = tryout_obj.get('dateCreated', str(time.time()))
         self.dateUpdated = tryout_obj.get('dateUpdated', str(time.time()))
         self.name = tryout_obj.get('name', "Tryouts: Fall2023/Spring2024")
         self.type = tryout_obj.get('type', "competitive")
         self.subType = tryout_obj.get('subType', "youth")
-        self.details = tryout_obj.get('details', "This is a no joke tryout!")
+        self.details = tryout_obj.get('details', "This is a no joke tryout joel!")
         self.isFree = tryout_obj.get('isFree', False)
         self.status = tryout_obj.get('status', "open")
         self.mode = tryout_obj.get('mode', "edit")
@@ -35,24 +43,14 @@ class TryOut:
         self.sport = tryout_obj.get('sport', "soccer")
         self.chatEnabled = tryout_obj.get('chatEnabled', True)
 
-# create a function that creates a new TryOut object and fills it with mock data
-def create_mock_tryout():
-    # create a new TryOut object
-    tryout = TryOut()
-    # set the name of the TryOut object
-    tryout.name = "Mock TryOut"
-    tryout.teamId = "Mock Team Id"
-    tryout.notes = "Mock Notes"
-    tryout.tryoutRoster = "Mock Players Registered Refs"
-    tryout.coachRosters = "Mock Players Ranked Refs"
-    tryout.headCoachId = "Mock Head Coach Id"
-    tryout.headCoachName = "Mock Head Coach Name"
-    tryout.coaches = []
-    tryout.managers = "Mock Manager Refs"
-    tryout.organizations = "Mock Organization Refs"
-    tryout.schedule = "Mock Schedule"
-    tryout.year = "Mock Year"
-    tryout.ageGroup = "Mock Age Group"
-    tryout.isActive = "Mock Is Active"
-    # return the TryOut object
-    return tryout
+    def saveToFirebase(self):
+        return db.add_object(self.id, self.__dict__, collection="tryouts")
+
+    @classmethod
+    def makeAndSaveNewTeam(cls):
+        newTryout = cls()
+        newTryout.saveToFirebase()
+        return newTryout
+
+if __name__ == '__main__':
+    newTryout = TryOut.makeAndSaveNewTeam()

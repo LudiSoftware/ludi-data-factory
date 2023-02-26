@@ -44,8 +44,6 @@ class Team:
         self.season = team_obj.get('season', "Spring 2023")
         self.schedule = team_obj.get('schedule', dg.generate_practice_schedule())
         self.name = team_obj.get('name', dg.generate_team_name())
-        self.firstName = team_obj.get('firstName', dg.get_first_name(fakeName))
-        self.lastName = team_obj.get('lastName', dg.get_last_name(fakeName))
         self.year = team_obj.get('year', dg.generate_team_year())
         self.ageGroup = team_obj.get('ageGroup', dg.generate_age_group())
         self.isActive = team_obj.get('isActive', True)
