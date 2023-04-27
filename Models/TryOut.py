@@ -1,28 +1,24 @@
 import uuid
 import time
-from Firebase.FirebaseAdmin import FireDB
+# from Firebase.FirebaseAdmin import FireDB
 from Models.TestDataCreator.TestData import DataGeneration as dg
 dg = dg()
-db = FireDB()
+# db = FireDB()
 class TryOut:
-    def __init__(self, tryout_obj={}, headCoachId="tnmjTR7r1HPwIaBb2oXrDrwXT842"):
+    def __init__(self, tryout_obj={}, headCoachId="tnmjTR7r1HPwIaBb2oXrDrwXT842", rosterId="59d0b9ca-cdfd-11ed-8ff9-86f7c4c00ee2"):
         self.id = tryout_obj.get('id', str(uuid.uuid4()))
         # From Team (5)
         self.isActive = tryout_obj.get('isActive', True)
         self.isFinalized = tryout_obj.get('isFinalized', False)
-        self.teamId = tryout_obj.get('teamId', "9374e9f6-53ce-4ca5-90c6-cd613ad52c6a")
+        self.teamId = tryout_obj.get('teamId', "b17bcb69-0fd9-4df1-b61f-8e294f26a87e")
         self.headCoachId = tryout_obj.get('headCoachId', headCoachId)
         self.headCoachName = tryout_obj.get('headCoachName', "Chazz Romeo")
         # References (3)
-        self.coaches = tryout_obj.get('coaches', [dg.generate_coachRef(userId=headCoachId)])
-        self.managers = tryout_obj.get('managers', [])
-        self.organizations = tryout_obj.get('organizations', [])
-        # Notes (1)
-        self.notes = tryout_obj.get('notes', [])
-        # Rosters (2)
-        roster = dg.generate_roster(20)
-        self.tryoutRoster = tryout_obj.get('tryoutRoster', roster)
-        self.coachRosters = tryout_obj.get('coachRosters', [dg.generate_coach_roster(coachId=headCoachId, roster=roster)])
+        self.coachIds = tryout_obj.get('coachIds', [dg.generate_coachRef(userId=headCoachId)])
+        self.managerIds = tryout_obj.get('managerIds', [])
+        self.organizationIds = tryout_obj.get('organizationIds', [])
+        # Rosters (1)
+        self.rosterId = tryout_obj.get('rosterId', rosterId)
         # Schedule (1)
         # self.schedule = tryout_obj.get('schedule', dg.generate_tryout_schedule())
         # Team Attributes (3)
@@ -43,14 +39,20 @@ class TryOut:
         self.sport = tryout_obj.get('sport', "soccer")
         self.chatEnabled = tryout_obj.get('chatEnabled', True)
 
-    def saveToFirebase(self):
-        return db.add_object(self.id, self.__dict__, collection="tryouts")
+    def attachTeam(self, teamId):
+        self.teamId = teamId
 
-    @classmethod
-    def makeAndSaveNewTeam(cls):
-        newTryout = cls()
-        newTryout.saveToFirebase()
-        return newTryout
+    def attachCoach(self, coachId):
+        self.headCoachId = coachId
 
-if __name__ == '__main__':
-    newTryout = TryOut.makeAndSaveNewTeam()
+    # def saveToFirebase(self):
+    #     return db.add_object(self.id, self.__dict__, collection="tryouts")
+
+    # @classmethod
+#     def makeAndSaveNewTeam(cls):
+#         newTryout = cls()
+#         newTryout.saveToFirebase()
+#         return newTryout
+#
+# if __name__ == '__main__':
+#     newTryout = TryOut.makeAndSaveNewTeam()

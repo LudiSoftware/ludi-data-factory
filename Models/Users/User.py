@@ -39,3 +39,16 @@ class User:
         self.player = firebase_user.get("player", False)
         self.coach = firebase_user.get("coach", False)
         self.valid = firebase_user.get("valid", True)
+
+
+    def createAndSaveUser(self, userId: str):
+        from Firebase.FirebaseAdmin import FireDB
+        self.id = userId
+        fb = FireDB()
+        fb.add_object(collection="users", obj_id=self.id, obj=self.__dict__)
+        return self.id
+
+
+if __name__ == '__main__':
+    u = User()
+    u.createAndSaveUser("GMTRmTSP4hUSCG0Owk7D6EDfeAx2")

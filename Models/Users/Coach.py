@@ -23,12 +23,12 @@ class Coach:
         if firebase_user and type(firebase_user) not in [dict]:
             firebase_user = firebase_user.__dict__
         self.id = firebase_user.get('id', str(uuid.uuid4()))
+        self.userId = firebase_user.get('userId', self.id)
         self.title = firebase_user.get('title', "Head Coach")
         self.organizations = firebase_user.get('organizations', [])
         self.teams = firebase_user.get('teams', [])
-        self.evaluations = firebase_user.get('evaluations', [])
         self.hasReview = firebase_user.get('hasReview', False)
-        self.reviewBundle = firebase_user.get('reviewBundle', "None")
+        self.reviewIds = firebase_user.get('reviewIds', ["None"])
         #base
         self.dateCreated = firebase_user.get('dateCreated', str(time.time()))
         self.dateUpdated = firebase_user.get('dateUpdated', str(time.time()))
@@ -44,5 +44,19 @@ class Coach:
         self.mode = firebase_user.get('mode', "active")
         self.imgUrl = firebase_user.get('imgUrl', dg.generate_coach_img_url())
         self.sport = firebase_user.get('sport', "Soccer")
+
+    @staticmethod
+    def get_coach_from_firebase(coach_id):
+        from Firebase.FirebaseAdmin import FireDB
+        fb = FireDB()
+        try:
+            co = fb.get_object(collection="coaches", obj_id=coach_id)
+            oo = co[0][coach_id]
+            c = Coach(oo)
+            return c
+        except Exception as e:
+            print(e)
+            return None
+
 
 

@@ -41,8 +41,8 @@ coach_note_team = [
     "I don't know what they're doing out there, but it's not soccer.",
     "It's like they're allergic to the ball or something."
 ]
-class DataGeneration:
 
+class BaseDG:
     @staticmethod
     def get_random(list_of_items):
         return random.choice(list_of_items)
@@ -50,10 +50,10 @@ class DataGeneration:
     def generate_full_name():
         return str(random.choice(firstNames) + " " + random.choice(lastNames))
     @staticmethod
-    def get_first_name(fullname:str):
+    def get_first_name(fullname: str):
         return fullname.split()[0]
     @staticmethod
-    def get_last_name(fullname:str):
+    def get_last_name(fullname: str):
         return fullname.split()[1]
     @staticmethod
     def generate_username():
@@ -81,7 +81,7 @@ class DataGeneration:
         num_str = str(num).zfill(5)
         return num_str
     @staticmethod
-    def generate_player_rank(rosterSize:int=20):
+    def generate_player_rank(rosterSize: int = 20):
         # generate a random integer between 0 and 99999
         num = random.randint(0, rosterSize)
         return num
@@ -112,6 +112,17 @@ class DataGeneration:
     @staticmethod
     def generate_coach_img_url():
         return random.choice(coach_img_urls)
+
+
+class DataGeneration(BaseDG):
+
+    userId = "tnmjTR7r1HPwIaBb2oXrDrwXT842"
+    coachId = "tnmjTR7r1HPwIaBb2oXrDrwXT842"
+    teamId = ""
+    tryoutId = ""
+    organizationId = ""
+
+
     @staticmethod
     def random_time():
         hour = random.randint(1, 12)
@@ -160,6 +171,14 @@ class DataGeneration:
         if toDict:
             return coach.__dict__
         return coach
+
+    @staticmethod
+    def generate_playerRefs(num_players=20):
+        player_refs = []
+        for i in range(num_players):
+            newPlayerRef = DataGeneration.generate_playerRef()
+            player_refs.append(newPlayerRef)
+        return player_refs
     @staticmethod
     def generate_playerRef(toDict:bool=True):
         from Models.Users.Player import PlayerRef
@@ -179,21 +198,7 @@ class DataGeneration:
         roster.players = player_refs
         return roster.__dict__
 
-    @staticmethod
-    def generate_coach_roster(coachId, roster):
-        from Models.Roster import CoachRosters
-        item = {"coachId": coachId, "rosters": [roster]}
-        coachRoster = CoachRosters(item)
-        return coachRoster.__dict__
-
-
-    @staticmethod
-    def generate_coaches(num_players: int = 1) -> [dict]:
-        coach_refs = []
-        for i in range(num_players):
-            newCoachRef = DataGeneration.generate_coachRef()
-            coach_refs.append(newCoachRef.__dict__)
-        return coach_refs
+    """ Team """
     @staticmethod
     def generate_team() -> dict:
         from Models.Team import Team
@@ -213,6 +218,24 @@ class DataGeneration:
         tryout = TryOut(team_obj)
         return tryout.__dict__
 
+    @staticmethod
+    def generate_tryout_event(day="monday", toDict: bool = True):
+        from Models.Schedule import Event
+        startTime, endTime = DataGeneration.random_time_range()
+        startDate, endDate = DataGeneration.random_date_range(1)
+        event = Event()
+        event.isRecurring = False
+        event.startDate = startDate
+        event.endDate = endDate
+        event.startTime = startTime
+        event.endTime = endTime
+        event.eventName = "Try-Outs"
+        event.day = day
+        if toDict:
+            return event.__dict__
+        return event
+
+    """ Schedule """
     @staticmethod
     def generate_practice_event(day="monday", toDict:bool=True):
         from Models.Schedule import Event
@@ -243,23 +266,6 @@ class DataGeneration:
             tempEvent['endDate'] = end_date
             scheduleObj[day] = tempEvent
         return scheduleObj
-
-    @staticmethod
-    def generate_tryout_event(day="monday", toDict: bool = True):
-        from Models.Schedule import Event
-        startTime, endTime = DataGeneration.random_time_range()
-        startDate, endDate = DataGeneration.random_date_range(1)
-        event = Event()
-        event.isRecurring = False
-        event.startDate = startDate
-        event.endDate = endDate
-        event.startTime = startTime
-        event.endTime = endTime
-        event.eventName = "Try-Outs"
-        event.day = day
-        if toDict:
-            return event.__dict__
-        return event
 
     @staticmethod
     def generate_tryout_schedule(name="Tryouts: 2023/2024") -> dict:
