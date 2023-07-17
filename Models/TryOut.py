@@ -14,7 +14,7 @@ class TryOut:
         self.headCoachId = tryout_obj.get('headCoachId', headCoachId)
         self.headCoachName = tryout_obj.get('headCoachName', "Chazz Romeo")
         # References (3)
-        self.coachIds = tryout_obj.get('coachIds', [dg.generate_coachRef(userId=headCoachId)])
+        self.coachIds = tryout_obj.get('coachIds', [headCoachId])
         self.managerIds = tryout_obj.get('managerIds', [])
         self.organizationIds = tryout_obj.get('organizationIds', [])
         # Rosters (1)

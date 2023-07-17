@@ -8,15 +8,6 @@ dg = dg()
 UNASSIGNED = "unassigned"
 
 
-class CoachRef:
-    def __init__(self, user_or_coach_json: dict = {}):
-        self.id = user_or_coach_json.get('id', str(uuid.uuid4()))
-        self.coachId = user_or_coach_json.get('coachId', self.id)
-        self.name = user_or_coach_json.get('name', dg.generate_full_name())
-        self.isHeadCoach = user_or_coach_json.get('isHeadCoach', True)
-        self.title = user_or_coach_json.get('title', "Head Coach")
-        self.imgUrl = user_or_coach_json.get('imgUrl', dg.generate_coach_img_url())
-
 class Coach:
 
     def __init__(self, firebase_user=None):

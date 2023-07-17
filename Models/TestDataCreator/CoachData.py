@@ -13,6 +13,6 @@ class CoachDG:
     def generate_coach_refs(num_players: int = 1) -> [dict]:
         coach_refs = []
         for i in range(num_players):
-            newCoachRef = DataGeneration.generate_coachRef()
+            newCoachRef = DataGeneration.generate_coach_user()
             coach_refs.append(newCoachRef.__dict__)
         return coach_refs

@@ -13,14 +13,14 @@ class RosterRef:
         self.teamId = json_obj.get('teamId', "unassigned")
 
 class Roster:
-    def __init__(self, json_obj={}, playerCount=40):
+    def __init__(self, json_obj={}, playerCount=18):
         self.id = json_obj.get('id', str(uuid.uuid1()))
-        self.teamId = json_obj.get('teamId', "b17bcb69-0fd9-4df1-b61f-8e294f26a87e")
+        self.teamId = json_obj.get('teamId', "250aaa4d-15f3-4948-a332-73507ab2ed1b")
         self.coachId = json_obj.get('coachId', "tnmjTR7r1HPwIaBb2oXrDrwXT842")
         self.organizationId = json_obj.get('organizationId', "unassigned")
-        self.name = json_obj.get('name', "Raiders Tryouts")
-        self.season = json_obj.get('season', "2023/2024")
-        self.year = json_obj.get('year', "2023")
+        self.name = json_obj.get('name', "The Dumb Fuckery Bois 2022")
+        self.season = json_obj.get('season', "2022/2023")
+        self.year = json_obj.get('year', "2022")
         self.status = json_obj.get('status', "open")
         self.gender = json_obj.get('gender', 'female')
         self.sport = json_obj.get('sport', "Soccer")

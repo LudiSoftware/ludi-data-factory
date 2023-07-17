@@ -39,7 +39,7 @@ class Team:
         self.id = team_obj.get('teamId', team_obj.get('id', str(uuid.uuid4())))
         self.headCoachId = team_obj.get('headCoachId', headCoachId)
         self.headCoachName = team_obj.get('headCoachName', team_obj.get('name', fakeName))
-        self.coaches: [] = team_obj.get('coaches', [dg.generate_coachRef(userId=headCoachId)])
+        self.coaches: [] = team_obj.get('coaches', [dg.generate_coach_user(userId=headCoachId)])
         self.managers: [] = team_obj.get('managers', [])
         self.organizations: [] = team_obj.get('organizations', [])
         self.rosterId = team_obj.get('roster', "9a9753e2-b886-11ed-a1e2-86f7c4c00ee1")

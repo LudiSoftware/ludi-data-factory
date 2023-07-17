@@ -11,8 +11,8 @@ coachUUID = "tnmjTR7r1HPwIaBb2oXrDrwXT842"
 """ Roster """
 def createRoster():
     roster = Roster()
-    roster.attachTeam(teamUUID)
-    roster.attachCoach(coachUUID)
+    # roster.attachTeam(teamUUID)
+    # roster.attachCoach(coachUUID)
     return roster
 
 def saveRoster(roster):
@@ -20,9 +20,9 @@ def saveRoster(roster):
 
 """ TryOut """
 def createTryOut():
-    tRoster = createRoster()
-    saveRoster(tRoster)
-    tryOut = TryOut(rosterId=tRoster.id)
+    # tRoster = createRoster()
+    # saveRoster(tRoster)
+    tryOut = TryOut()
     tryOut.attachTeam(teamUUID)
     tryOut.attachCoach(coachUUID)
     return tryOut
@@ -43,11 +43,11 @@ def saveTeam(team):
 
 if __name__ == "__main__":
     # Roster
-    roster = createRoster()
-    rosterId = saveRoster(roster)
+    # roster = createRoster()
+    # rosterId = saveRoster(roster)
     # TryOut
-    # tryOut = createTryOut()
-    # tryOutId = saveTryOut(tryOut)
+    tryOut = createTryOut()
+    tryOutId = saveTryOut(tryOut)
     # Team
     # team = createTeam("rosterId", "tryOutId")
     # teamId = saveTeam(team)

@@ -162,9 +162,9 @@ class DataGeneration(BaseDG):
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
         return age
     @staticmethod
-    def generate_coachRef(userId:str=None, toDict:bool=True):
-        from Models.Users.Coach import CoachRef
-        coach = CoachRef()
+    def generate_coach_user(userId:str=None, toDict:bool=True):
+        from Models.Users.Coach import Coach
+        coach = Coach()
         if userId:
             coach.id = userId
             coach.coachId = userId
