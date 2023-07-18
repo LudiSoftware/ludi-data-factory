@@ -14,7 +14,9 @@ class RedZone:
         self.dateUpdated = redzone.get('dateUpdated', str(time.time()))
         self.name = redzone.get('name', "")
         self.description = redzone.get('description', "")
-        self.latLngs = redzone.get('latLngs', [])
+        self.latLngs = redzone.get('latlngs', [])
+        self.parentZone = redzone.get('parentZone', "")
+        self.governingBody = redzone.get('governingBody', "BAA")
         self.isOpen = redzone.get('isOpen', True)
         self.locationIds = redzone.get('locationId', "")
         self.state = redzone.get('state', "")
@@ -27,6 +29,8 @@ class RedZone:
             "name": self.name,
             "description": self.description,
             "latLngs": self.latLngs,
+            "parentZone": self.parentZone,
+            "governingBody": self.governingBody,
             "isOpen": self.isOpen,
             "locationIds": self.locationIds,
             "state": self.state
